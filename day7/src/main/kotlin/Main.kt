@@ -5,10 +5,10 @@ import java.util.Collections.min
 fun main(args: Array<String>) {
     val filePath = Paths.get("").toAbsolutePath().toString() + "\\" + args[0]
 
+    // Build tree
     val root = MyDir()
     root.name = "/"
     var curDir = root
-
     File(filePath).forEachLine { line ->
         if (line == "$ cd /") {
             return@forEachLine
@@ -32,14 +32,13 @@ fun main(args: Array<String>) {
         }
     }
     val maxSize = 100000
-
     val curFreeSpace = 70000000 - root.getSize()
     val neededSpace = 30000000
     val smallestSizeToDelete = neededSpace - curFreeSpace
 
+    println("Sum of all dir sizes less than $maxSize is ${getSumSizesLessThanX(root, maxSize)}")
     println("Free space: $curFreeSpace")
     println("Need to free up at least $smallestSizeToDelete")
-    //println(getSumSizesLessThanX(root, maxSize))
     println("found ${findSmallestDirectoryToDelete(root, smallestSizeToDelete)}")
 }
 
@@ -48,20 +47,15 @@ fun findSmallestDirectoryToDelete(root: MyDir, x: Int): Int {
     val candidates: MutableList<Int> = mutableListOf()
     if (curSize >= x) {
         candidates.add(curSize)
-        for (dir in root.directories) {
-            candidates.add(findSmallestDirectoryToDelete(dir, x))
-        }
-        return min(candidates)
-    } else {
-        for (dir in root.directories) {
-            candidates.add(findSmallestDirectoryToDelete(dir, x))
-        }
-        // Not always a directory that were added.
-        return try {
-            min(candidates)
-        } catch (e: NoSuchElementException) {
-            Int.MAX_VALUE
-        }
+    }
+    for (dir in root.directories) {
+        candidates.add(findSmallestDirectoryToDelete(dir, x))
+    }
+    // Not always a directory that were added.
+    return try {
+        min(candidates)
+    } catch (e: NoSuchElementException) {
+        Int.MAX_VALUE
     }
 }
 
@@ -69,18 +63,12 @@ fun getSumSizesLessThanX(root: MyDir, x: Int): Int {
     val size = root.getSize()
     var tmp = 0
     if (size <= x) {
-        println("Adding ${root.name} $size")
         tmp += size
-        for (dir in root.directories) {
-            tmp += getSumSizesLessThanX(dir, x)
-        }
-        return tmp
-    } else {
-        for (dir in root.directories) {
-            tmp += getSumSizesLessThanX(dir, x)
-        }
-        return tmp
     }
+    for (dir in root.directories) {
+        tmp += getSumSizesLessThanX(dir, x)
+    }
+    return tmp
 }
 
 class MyDir {
