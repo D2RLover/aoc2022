@@ -1,0 +1,1 @@
+C:\Users\alexander.sanner\Git\adventofcode2022\day7\build\classes\kotlin\main\MainKt.class;C:\Users\alexander.sanner\Git\adventofcode2022\day7\build\classes\kotlin\main\MyDir.class;C:\Users\alexander.sanner\Git\adventofcode2022\day7\build\classes\kotlin\main\MyFile.class
