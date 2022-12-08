@@ -1,0 +1,1 @@
+C:\Users\alexander.sanner\Git\adventofcode2022\day8\build\classes\kotlin\main\MainKt.class
