@@ -54,9 +54,7 @@ class MovablePoint {
         }
     }
 
-    fun getNumberOfVisitedPlaces(): Int {
-        return visited.size
-    }
+    fun getNumberOfVisitedPlaces(): Int = visited.size
 
     fun follow(other: MovablePoint) {
         while (!isAdjacentTo(other)) {
@@ -88,37 +86,21 @@ class MovablePoint {
         }
     }
 
-    fun moveUp() {
-        moveTo(Coordinate(coordinate.x, coordinate.y + 1))
-    }
+    fun moveUp() = moveTo(Coordinate(coordinate.x, coordinate.y + 1))
 
-    fun moveUpLeft() {
-        moveTo(Coordinate(coordinate.x - 1, coordinate.y + 1))
-    }
+    fun moveUpLeft() = moveTo(Coordinate(coordinate.x - 1, coordinate.y + 1))
 
-    fun moveUpRight() {
-        moveTo(Coordinate(coordinate.x + 1, coordinate.y + 1))
-    }
+    fun moveUpRight() = moveTo(Coordinate(coordinate.x + 1, coordinate.y + 1))
 
-    fun moveDown() {
-        moveTo(Coordinate(coordinate.x, coordinate.y - 1))
-    }
+    fun moveDown() = moveTo(Coordinate(coordinate.x, coordinate.y - 1))
 
-    fun moveDownLeft() {
-        moveTo(Coordinate(coordinate.x - 1, coordinate.y - 1))
-    }
+    fun moveDownLeft() = moveTo(Coordinate(coordinate.x - 1, coordinate.y - 1))
 
-    fun moveDownRight() {
-        moveTo(Coordinate(coordinate.x + 1, coordinate.y - 1))
-    }
+    fun moveDownRight() = moveTo(Coordinate(coordinate.x + 1, coordinate.y - 1))
 
-    fun moveRight() {
-        moveTo(Coordinate(coordinate.x + 1, coordinate.y))
-    }
+    fun moveRight() = moveTo(Coordinate(coordinate.x + 1, coordinate.y))
 
-    fun moveLeft() {
-        moveTo(Coordinate(coordinate.x - 1, coordinate.y))
-    }
+    fun moveLeft() = moveTo(Coordinate(coordinate.x - 1, coordinate.y))
 
     private fun moveTo(toCoord: Coordinate) {
         this.coordinate = toCoord
