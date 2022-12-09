@@ -1,0 +1,1 @@
+C:\Users\alexander.sanner\Git\aoc2022\day9\build\classes\kotlin\main\Coordinate.class;C:\Users\alexander.sanner\Git\aoc2022\day9\build\classes\kotlin\main\MainKt$main$1.class;C:\Users\alexander.sanner\Git\aoc2022\day9\build\classes\kotlin\main\MainKt.class;C:\Users\alexander.sanner\Git\aoc2022\day9\build\classes\kotlin\main\MovablePoint.class
