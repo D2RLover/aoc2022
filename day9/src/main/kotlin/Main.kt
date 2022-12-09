@@ -122,20 +122,8 @@ class MovablePoint {
 
     private fun moveTo(toCoord: Coordinate) {
         this.coordinate = toCoord
-        var exist = false
-        for (coord in visited) {
-            if (coord == toCoord) {
-                exist = true
-            }
-        }
-        if (!exist) {
-            visited.add(toCoord)
-        }
+        visited.add(toCoord)
     }
 }
 
-class Coordinate(var x: Int, var y: Int) {
-    override fun equals(other: Any?): Boolean {
-        return (other as Coordinate).x == x && other.y == y
-    }
-}
+data class Coordinate(var x: Int, var y: Int) {}
