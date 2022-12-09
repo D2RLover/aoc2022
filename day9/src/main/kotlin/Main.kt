@@ -42,10 +42,7 @@ class MovablePoint {
         val xDiff = abs(coordinate.x - other.coordinate.x)
         val yDiff = abs(coordinate.y - other.coordinate.y)
 
-        if (xDiff > 1 || yDiff > 1) {
-            return false
-        }
-        return true
+        return xDiff <= 1 && yDiff <= 1
     }
 
     fun printVisited() {
