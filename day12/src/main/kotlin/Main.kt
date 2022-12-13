@@ -4,6 +4,9 @@ import java.nio.file.Paths
 fun main(args: Array<String>) {
     println(partA("testInput.txt"))
     println(partA("Input.txt"))
+
+    println(partB("testInput.txt"))
+    println(partB("Input.txt"))
 }
 
 fun partA(fileName: String): Int? {
@@ -13,10 +16,34 @@ fun partA(fileName: String): Int? {
     val maxSizeY = input.size - 1
     val maxSizeX = input.first().length
     val map = buildMap(input)
-    val startPos = getPosOfChar(input, 'S')
-    val endPos = getPosOfChar(input, 'E')
+    val startPos = getPosOfChar(input, 'E')
+    val endPos = getPosOfChar(input, 'S')
 
-    return findSmallestDistanceToE(map, startPos, maxSizeY, maxSizeX, endPos)
+    val smallestDists = findSmallestDistancesMapFromStartingPoint(map, startPos, maxSizeY, maxSizeX)
+    return smallestDists[endPos]
+}
+
+fun partB(fileName: String): Int? {
+    val filePath = Paths.get("").toAbsolutePath().toString() + "\\" + fileName
+    val input = File(filePath).readLines()
+
+    val maxSizeY = input.size - 1
+    val maxSizeX = input.first().length
+    val map = buildMap(input)
+    val endingPositions = getAllStartingPositions(input)
+    val startPos = getPosOfChar(input, 'E')
+
+    val smallestDists = findSmallestDistancesMapFromStartingPoint(map, startPos, maxSizeY, maxSizeX)
+
+    var currentMin = Int.MAX_VALUE
+    for (endPos in endingPositions) {
+        if (smallestDists[endPos] != null) {
+            if (currentMin > smallestDists[endPos]!!) {
+                currentMin = smallestDists[endPos]!!
+            }
+        }
+    }
+    return currentMin
 }
 
 fun getPosOfChar(input: List<String>, char: Char): Pair<Int, Int> {
@@ -30,13 +57,24 @@ fun getPosOfChar(input: List<String>, char: Char): Pair<Int, Int> {
     error("no pos found")
 }
 
-fun findSmallestDistanceToE(
+fun getAllStartingPositions(input: List<String>): List<Pair<Int, Int>> {
+    val startingPositions = mutableListOf<Pair<Int, Int>>()
+    for (y in input.indices) {
+        for (x in input[y].indices) {
+            if (input[y][x] == 'a' || input[y][x] == 'S') {
+                startingPositions.add(Pair(x, y))
+            }
+        }
+    }
+    return startingPositions
+}
+
+fun findSmallestDistancesMapFromStartingPoint(
     map: Map<Pair<Int, Int>, Char>,
     startPos: Pair<Int, Int>,
     maxSizeY: Int,
-    maxSizeX: Int,
-    endPos: Pair<Int, Int>
-): Int? {
+    maxSizeX: Int
+): Map<Pair<Int, Int>, Int> {
     val currentBest = mutableMapOf<Pair<Int, Int>, Int>()
     val queue = ArrayDeque<Pair<Pair<Int, Int>, Int>>()
     queue.add(Pair(startPos, 0))
@@ -59,7 +97,7 @@ fun findSmallestDistanceToE(
             }
         }
     }
-    return currentBest[endPos]
+    return currentBest
 }
 
 fun getPossibleMoves(
@@ -101,18 +139,20 @@ fun isPossibleMove(
 ): Boolean {
     if (isPosOutsideMap(newPos, maxSizeY, maxSizeX)) return false
 
-    var curCharValue = map.getOrDefault(curPos, 'a').code
-    var otherCharValue = map.getOrDefault(newPos, 'E').code
-    if (map[curPos] == 'S') {
-        curCharValue = 'a'.code
-    }
-    if (map[newPos] == 'E') {
-        otherCharValue = 'z'.code
-    }
-    if (otherCharValue - curCharValue > 1) {
+    val curCharValue = getCharValue(map.getOrDefault(curPos, 'a'))
+    val newCharValue = getCharValue(map.getOrDefault(newPos, 'a'))
+    if (curCharValue - newCharValue > 1) {
         return false
     }
     return true
+}
+
+fun getCharValue(char: Char): Int {
+    return when (char) {
+        'E' -> 'z'.code
+        'S' -> 'a'.code
+        else -> char.code
+    }
 }
 
 fun buildMap(input: List<String>): Map<Pair<Int, Int>, Char> {
